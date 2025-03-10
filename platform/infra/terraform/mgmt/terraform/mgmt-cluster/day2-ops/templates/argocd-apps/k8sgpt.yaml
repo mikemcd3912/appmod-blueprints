@@ -7,18 +7,19 @@ spec:
   project: default
   source:
     repoURL: https://charts.k8sgpt.ai/
-    targetRevision: 0.3.7  
+    targetRevision: 0.2.9  
     chart: k8sgpt-operator
     helm:
-      config:
-        backend: "bedrock"
-        bedrock:
-          region: ${EKS_REGION}  
-          model: "anthropic.claude-3-5-sonnet-20241022-v2:0" 
-          serviceAccount:
-            create: true
-            annotations:
-              eks.amazonaws.com/role-arn: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/k8sgpt-bedrock-role"
+      values: |
+        config:
+          backend: "bedrock"
+          bedrock:
+            region: ${EKS_REGION}  
+            model: "anthropic.claude-3-5-sonnet-20241022-v2:0" 
+            serviceAccount:
+              create: true
+              annotations:
+                eks.amazonaws.com/role-arn: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/k8sgpt-bedrock-role"
 
   destination:
     server: https://kubernetes.default.svc

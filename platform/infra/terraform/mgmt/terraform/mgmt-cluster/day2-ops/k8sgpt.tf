@@ -13,8 +13,8 @@ resource "aws_iam_role" "k8sgpt_bedrock_role" {
         }
         Condition = {
           StringEquals = {
-            "${data.aws_iam_openid_connect_provider.eks_oidc}:sub": "system:serviceaccount:k8sgpt-operator-system:k8sgpt-operator-controller-manager"
-            "${data.aws_iam_openid_connect_provider.eks_oidc}:aud": "sts.amazonaws.com"
+            "${data.aws_iam_openid_connect_provider.eks_oidc.url}:sub": "system:serviceaccount:k8sgpt-operator-system:k8sgpt-operator-controller-manager"
+            "${data.aws_iam_openid_connect_provider.eks_oidc.url}:aud": "sts.amazonaws.com"
           }
         }
       }
@@ -43,7 +43,7 @@ resource "aws_iam_role_policy" "k8sgpt_bedrock_policy" {
 }
 
 resource "kubectl_manifest" "application_argocd_k8sgpt_operator" {
-  depends_on = [ resource.k8sgpt_bedrock_role ]
+  depends_on = [ resource.aws_iam_role.k8sgpt_bedrock_role ]
   yaml_body = templatefile("${path.module}/templates/argocd-apps/k8sgpt.yaml", {
      AWS_ACCOUNT_ID = data.aws_caller_identity.current.account_id
      EKS_REGION = var.region
