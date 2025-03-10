@@ -18,6 +18,8 @@ spec:
             model: "anthropic.claude-3-5-sonnet-20241022-v2:0" 
             serviceAccount:
               create: false
+              annotations:
+                eks.amazonaws.com/role-arn: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/k8sgpt-bedrock-role"
   destination:
     server: https://kubernetes.default.svc
     namespace: k8sgpt-operator-system
