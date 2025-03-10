@@ -16,6 +16,8 @@ spec:
           bedrock:
             region: ${EKS_REGION}  
             model: "anthropic.claude-3-5-sonnet-20241022-v2:0" 
+            serviceAccount:
+              create: false
   destination:
     server: https://kubernetes.default.svc
     namespace: k8sgpt-operator-system
