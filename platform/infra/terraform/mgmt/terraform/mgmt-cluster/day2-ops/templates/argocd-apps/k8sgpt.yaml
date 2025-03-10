@@ -14,6 +14,7 @@ spec:
           serviceAccount:
             create: true
             annotations:
+              testAnnotation: "This"
               eks.amazonaws.com/role-arn: "arn:aws:iam::${AWS_ACCOUNT_ID}:role/k8sgpt-bedrock-role"
           k8sgpt:
             ai:
