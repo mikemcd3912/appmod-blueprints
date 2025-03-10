@@ -64,3 +64,13 @@ resource "kubectl_manifest" "application_argocd_k8sgpt_operator" {
     interpreter = ["/bin/bash", "-c"]
   }
 }
+
+resource "kubernetes_service_account" "k8sgpt-operator-controller-manager-sa" {
+  metadata {
+    name      = "k8sgpt-operator-controller-manager"
+    namespace = "k8sgpt-operator-system"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = aws_iam_role.k8sgpt_bedrock_role.arn
+    }
+  }
+}
