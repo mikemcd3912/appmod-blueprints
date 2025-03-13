@@ -47,6 +47,7 @@ resource "kubectl_manifest" "application_argocd_k8sgpt_operator" {
   yaml_body = templatefile("${path.module}/templates/argocd-apps/k8sgpt.yaml", {
      AWS_ACCOUNT_ID = data.aws_caller_identity.current.account_id
      EKS_REGION = var.region
+     DS_PROMETHEUS = var.DS_PROMETHEUS
     }
   )
 
