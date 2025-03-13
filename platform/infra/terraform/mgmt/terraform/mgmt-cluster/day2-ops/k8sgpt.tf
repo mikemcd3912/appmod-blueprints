@@ -32,9 +32,9 @@ module "k8sgpt-operator-controller-manager-role" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "external_secrets_role_attach" {
-  role       = module.k8sgpt-operator-controller-manager-role[0].iam_role_name
-  policy_arn = aws_iam_policy.k8sgpt_bedrock_policy[0].arn
+resource "aws_iam_role_policy_attachment" "k8sgpt_operator_role_attach" {
+  role       = module.k8sgpt-operator-controller-manager-role.iam_role_name
+  policy_arn = aws_iam_policy.k8sgpt_bedrock_policy.arn
 }
 
 resource "kubernetes_manifest" "namespace_k8sgpt" {
@@ -57,7 +57,7 @@ resource "kubernetes_manifest" "serviceaccount_k8sgpt_operator" {
     "kind" = "ServiceAccount"
     "metadata" = {
       "annotations" = {
-        "eks.amazonaws.com/role-arn" = tostring(module.k8sgpt-operator-controller-manager-role[0].iam_role_arn)
+        "eks.amazonaws.com/role-arn" = tostring(module.k8sgpt-operator-controller-manager-role.iam_role_arn)
       }
       "name" = ""
       "namespace" = "k8sgpt-operator-system"
