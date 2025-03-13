@@ -66,7 +66,7 @@ resource "kubernetes_manifest" "serviceaccount_k8sgpt_operator" {
 }
 
 resource "kubectl_manifest" "application_argocd_k8sgpt_operator" {
-  depends_on = [ resource.aws_iam_role.k8sgpt_bedrock_role ]
+  depends_on = [ module.k8sgpt-operator-controller-manager-role ]
   yaml_body = templatefile("${path.module}/templates/argocd-apps/k8sgpt.yaml", {
      AWS_ACCOUNT_ID = data.aws_caller_identity.current.account_id
      EKS_REGION = var.region
