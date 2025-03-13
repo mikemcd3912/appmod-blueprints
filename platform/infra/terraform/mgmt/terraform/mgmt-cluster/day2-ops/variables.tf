@@ -36,3 +36,9 @@ variable "enable_external_secret" {
   default     = true
   type        = bool
 }
+
+variable "DS_PROMETHEUS" {
+  description = "Prometheus data source"
+  type        = string
+  default     = ""
+}
