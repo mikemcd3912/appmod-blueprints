@@ -45,7 +45,7 @@ resource "kubernetes_manifest" "serviceaccount_k8sgpt_operator" {
       "annotations" = {
         "eks.amazonaws.com/role-arn" = tostring(module.k8sgpt-operator-controller-manager-role.iam_role_arn)
       }
-      "name" = "k8sgpt_operator-sa"
+      "name" = "k8sgpt-operator-sa"
       "namespace" = "k8sgpt-operator-system"
     }
   }
