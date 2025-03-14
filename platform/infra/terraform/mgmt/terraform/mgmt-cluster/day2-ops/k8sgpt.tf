@@ -38,10 +38,6 @@ resource "aws_iam_role_policy_attachment" "k8sgpt_operator_role_attach" {
 }
 
 resource "kubernetes_manifest" "serviceaccount_k8sgpt_operator" {
-  depends_on = [
-    kubernetes_manifest.namespace_k8sgpt
-  ]
-  
   manifest = {
     "apiVersion" = "v1"
     "kind" = "ServiceAccount"
@@ -49,7 +45,7 @@ resource "kubernetes_manifest" "serviceaccount_k8sgpt_operator" {
       "annotations" = {
         "eks.amazonaws.com/role-arn" = tostring(module.k8sgpt-operator-controller-manager-role.iam_role_arn)
       }
-      "name" = ""
+      "name" = "k8sgpt_operator-sa"
       "namespace" = "k8sgpt-operator-system"
     }
   }
