@@ -37,7 +37,21 @@ resource "aws_iam_role_policy_attachment" "k8sgpt_operator_role_attach" {
   policy_arn = aws_iam_policy.k8sgpt_bedrock_policy.arn
 }
 
+resource "kubernetes_manifest" "namespace_k8sgpt" {
+
+  manifest = {
+    "apiVersion" = "v1"
+    "kind" = "Namespace"
+    "metadata" = {
+      "name" = "k8sgpt-operator-system"
+    }
+  }
+}
 resource "kubernetes_manifest" "serviceaccount_k8sgpt_operator" {
+  depends_on = [
+    kubernetes_manifest.namespace_k8sgpt
+  ]
+  
   manifest = {
     "apiVersion" = "v1"
     "kind" = "ServiceAccount"
@@ -52,7 +66,7 @@ resource "kubernetes_manifest" "serviceaccount_k8sgpt_operator" {
 }
 
 resource "kubectl_manifest" "application_argocd_k8sgpt_operator" {
-  depends_on = [ module.k8sgpt-operator-controller-manager-role ]
+  depends_on = [kubernetes_manifest.serviceaccount_k8sgpt_operator] 
   yaml_body = templatefile("${path.module}/templates/argocd-apps/k8sgpt.yaml", {
      AWS_ACCOUNT_ID = data.aws_caller_identity.current.account_id
      EKS_REGION = var.region
