@@ -37,16 +37,6 @@ resource "aws_iam_role_policy_attachment" "k8sgpt_operator_role_attach" {
   policy_arn = aws_iam_policy.k8sgpt_bedrock_policy.arn
 }
 
-resource "kubernetes_manifest" "namespace_k8sgpt" {
-
-  manifest = {
-    "apiVersion" = "v1"
-    "kind" = "Namespace"
-    "metadata" = {
-      "name" = "k8sgpt-operator-system"
-    }
-  }
-}
 resource "kubernetes_manifest" "serviceaccount_k8sgpt_operator" {
   depends_on = [
     kubernetes_manifest.namespace_k8sgpt
