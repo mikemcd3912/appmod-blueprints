@@ -25,7 +25,7 @@ resource "kubectl_manifest" "application_argocd_crossplane" {
   )
 
   provisioner "local-exec" {
-    command = "kubectl wait --for=jsonpath=.status.health.status=Healthy -n argocd application/crossplane --timeout=300s &&  kubectl wait --for=jsonpath=.status.sync.status=Synced --timeout=300s -n argocd application/crossplane"
+    command = "kubectl wait --for=jsonpath=.status.health.status=Healthy -n argocd application/crossplane --timeout=900s &&  kubectl wait --for=jsonpath=.status.sync.status=Synced --timeout=300s -n argocd application/crossplane"
 
     interpreter = ["/bin/bash", "-c"]
   }
